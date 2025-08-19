@@ -1,0 +1,41 @@
+{
+  "name": "thimoo/postfinance-gateway-givewp",
+  "description": "Gateway add-on compatible with PostFinance Checkout Flex platform.",
+  "type": "wordpress-plugin",
+  "require": {
+    "php": ">=7.4",
+    "composer/installers": "~1.0"
+  },
+  "require-dev": {
+    "laravel/pint": "^1.15",
+    "php-stubs/wordpress-globals": "^0.2.0",
+    "php-stubs/wordpress-stubs": "^6.5",
+    "impress-org/give": "dev-master",
+    "postfinancecheckout/sdk": "^4.1"
+  },
+  "license": "Apache License 2.0",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "donations",
+    "add-on",
+    "gateway"
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/impress-org/givewp.git"
+    }
+  ],
+  "authors": [
+    {
+      "name": "Thimoo Sàrl",
+      "email": "web@thimoo.ch"
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true
+    }
+  }
+}

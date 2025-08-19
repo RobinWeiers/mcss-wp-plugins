@@ -1,0 +1,7 @@
+{
+    "exclude": [
+        "vendor",
+        "wp-content",
+        "php-sdk"
+    ]
+}

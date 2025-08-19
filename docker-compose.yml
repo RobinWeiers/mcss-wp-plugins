@@ -1,0 +1,60 @@
+services:
+  db:
+    image: mariadb:11
+    container_name: wp_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wppass
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  wordpress:
+    image: wordpress:6.8.2-php8.2-apache
+    container_name: wp_app
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wppass
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_DEBUG_LOG', true);
+        define('WP_DEBUG_DISPLAY', false);
+        define('DISALLOW_FILE_EDIT', true);
+        define('SCRIPT_DEBUG', true);
+    volumes:
+      # Persistance du contenu WordPress (thèmes, uploads, etc.)
+      - wp_content:/var/www/html/wp-content
+      # Synchronisation des plugins locaux (mettez vos dossiers de plugins dans ./plugins)
+      - ./plugins:/var/www/html/wp-content/plugins:delegated
+
+  # (Optionnel) phpMyAdmin pour gérer la base
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: wp_pma
+    depends_on:
+      - db
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: wpuser
+      PMA_PASSWORD: wppass
+
+volumes:
+  db_data:
+  wp_content:
