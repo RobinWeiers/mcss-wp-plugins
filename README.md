@@ -4,6 +4,8 @@ Ce répertoire contient les plugins WordPress pour le site web du Mouvement Cito
 
 # Environnement de développement
 
+L'environnement de développement permet de développer et tester les plugins WP.
+
 ## Prérequis
 
 - [docker](https://docs.docker.com/desktop/)
